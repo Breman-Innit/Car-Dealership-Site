@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Showcase - AutoElite</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables for Theme */
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #f59e0b;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --transition: all 0.3s ease;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        /* Dark Theme Variables */
+        .dark-theme {
+            --dark: #f8fafc;
+            --light: #1e293b;
+            --gray: #cbd5e1;
+            --gray-light: #334155;
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            transition: var(--transition);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Vehicle Showcase Section */
+        .vehicles-section {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, var(--light) 0%, #f1f5f9 100%);
+        }
+
+        .dark-theme .vehicles-section {
+            background: linear-gradient(135deg, var(--light) 0%, #0f172a 100%);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Filters Section */
+        .filters-container {
+            background: var(--light);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 3rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .filter-select, .filter-input {
+            padding: 0.8rem 1rem;
+            border: 2px solid var(--gray-light);
+            border-radius: 0.5rem;
+            background: var(--light);
+            color: var(--dark);
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        .filter-select:focus, .filter-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .search-box {
+            position: relative;
+            grid-column: 1 / -1;
+        }
+
+        .search-input {
+            width: 100%;
+            padding-left: 3rem;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+
+        /* Vehicle Grid - More Compact */
+        .vehicles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .vehicle-card {
+            background: var(--light);
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            height: 380px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .vehicle-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .card-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .badge-available {
+            background: var(--success);
+            color: white;
+        }
+
+        .badge-reserved {
+            background: var(--warning);
+            color: white;
+        }
+
+        .badge-sold {
+            background: var(--danger);
+            color: white;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .vehicle-card:hover .card-image {
+            transform: scale(1.05);
+        }
+
+        .card-content {
+            padding: 1.2rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.8rem;
+        }
+
+        .vehicle-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.3rem;
+        }
+
+        .vehicle-brand {
+            font-size: 0.9rem;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .vehicle-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .vehicle-type {
+            display: inline-block;
+            background: var(--gray-light);
+            color: var(--dark);
+            padding: 0.3rem 0.8rem;
+            border-radius: 1rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-bottom: 0.8rem;
+        }
+
+        .quick-specs {
+            display: flex;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .quick-spec {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        .quick-spec i {
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: auto;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.7rem 1.2rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            flex: 1;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .favorite-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--gray-light);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--gray);
+            flex-shrink: 0;
+        }
+
+        .favorite-btn:hover, .favorite-btn.active {
+            background: var(--danger);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        /* Results Info */
+        .results-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .results-count {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .sort-select {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--gray-light);
+            border-radius: 0.5rem;
+            background: var(--light);
+            color: var(--dark);
+        }
+
+        /* No Results */
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: var(--gray);
+        }
+
+        .no-results i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--gray-light);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 2rem;
+        }
+
+        .modal-content {
+            background: var(--light);
+            border-radius: 1rem;
+            max-width: 900px;
+            margin: 2rem auto;
+            box-shadow: var(--shadow-xl);
+            overflow: hidden;
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--gray-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--gray);
+            cursor: pointer;
+            transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-modal:hover {
+            background: var(--gray-light);
+            color: var(--dark);
+        }
+
+        .modal-body {
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .modal-image {
+            width: 100%;
+            border-radius: 0.5rem;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .modal-specs {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .spec-item {
+            padding: 1rem;
+            background: var(--gray-light);
+            border-radius: 0.5rem;
+            text-align: center;
+        }
+
+        .spec-icon {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .spec-value {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.2rem;
+        }
+
+        .spec-label {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        .modal-description {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            color: var(--gray);
+        }
+
+        .modal-features {
+            margin-bottom: 1.5rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .feature-item i {
+            color: var(--success);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.appear {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .vehicles-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .filters-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .results-info {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .modal-body {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .vehicles-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .card-actions {
+                flex-direction: column;
+            }
+            
+            .modal-body {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Vehicle Showcase Section -->
+    <section class="vehicles-section">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2 class="section-title">Explore Our Premium Collection</h2>
+                <p class="section-subtitle">Discover the perfect vehicle that matches your style and needs from our curated selection of premium automobiles</p>
+            </div>
+
+            <!-- Filters Section -->
+            <div class="filters-container fade-in">
+                <div class="search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="filter-input search-input" placeholder="Search by model, brand, or features...">
+                </div>
+                
+                <div class="filter-group">
+                    <label class="filter-label">Vehicle Type</label>
+                    <select class="filter-select" id="typeFilter">
+                        <option value="all">All Types</option>
+                        <option value="sedan">Sedan</option>
+                        <option value="suv">SUV</option>
+                        <option value="sports">Sports</option>
+                        <option value="electric">Electric</option>
+                        <option value="luxury">Luxury</option>
+                        <option value="coupe">Coupe</option>
+                        <option value="convertible">Convertible</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label class="filter-label">Brand</label>
+                    <select class="filter-select" id="brandFilter">
+                        <option value="all">All Brands</option>
+                        <option value="bmw">BMW</option>
+                        <option value="mercedes">Mercedes-Benz</option>
+                        <option value="audi">Audi</option>
+                        <option value="tesla">Tesla</option>
+                        <option value="porsche">Porsche</option>
+                        <option value="jaguar">Jaguar</option>
+                        <option value="lexus">Lexus</option>
+                        <option value="landrover">Land Rover</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label class="filter-label">Price Range</label>
+                    <select class="filter-select" id="priceFilter">
+                        <option value="all">Any Price</option>
+                        <option value="0-30000">$0 - $30,000</option>
+                        <option value="30000-60000">$30,000 - $60,000</option>
+                        <option value="60000-100000">$60,000 - $100,000</option>
+                        <option value="100000+">$100,000+</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Results Info -->
+            <div class="results-info fade-in">
+                <div class="results-count">Showing <span id="resultsCount">30</span> vehicles</div>
+                <div>
+                    <select class="sort-select" id="sortSelect">
+                        <option value="featured">Featured</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="newest">Newest First</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Vehicles Grid -->
+            <div class="vehicles-grid" id="vehiclesGrid">
+                <!-- Vehicle cards will be generated by JavaScript -->
+            </div>
+
+            <!-- No Results Message -->
+            <div class="no-results" id="noResults" style="display: none;">
+                <i class="fas fa-car-crash"></i>
+                <h3>No vehicles found</h3>
+                <p>Try adjusting your filters or search terms</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vehicle Details Modal -->
+    <div class="modal" id="vehicleModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Vehicle Details</h3>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Modal content will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample vehicle data - 30 cars
+        const vehicles = [
+            {
+                id: 1,
+                name: "BMW M5 Competition",
+                brand: "bmw",
+                type: "sedan",
+                price: 105000,
+                image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                year: 2023,
+                fuel: "Petrol",
+                transmission: "Automatic",
+                seats: 5,
+                engine: "4.4L V8",
+                power: "617 HP",
+                mileage: "12,500",
+                color: "Alpine White",
+                features: ["Apple CarPlay", "Android Auto", "Heated Seats", "Panoramic Roof", "Premium Sound", "Parking Assist"],
+                description: "The BMW M5 Competition combines luxury sedan comfort with supercar performance. With its powerful V8 engine and advanced driving dynamics, it offers an unparalleled driving experience.",
+                status: "available"
+            },
+            {
+                id: 2,
+                name: "Mercedes-Benz GLE",
+                brand: "mercedes",
+                type: "suv",
+                price: 75000,
+                image: "https://images.unsplash.com/photo-1563720223480-8bfe38a750c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                year: 2023,
+                fuel: "Diesel",
+                transmission: "Automatic",
+                seats: 7,
+                engine: "3.0L I6",
+                power: "362 HP",
+                mileage: "8,200",
+                color: "Obsidian Black",
+                features: ["MBUX System", "Air Suspension", "Third Row Seating", "360 Camera", "Premium Package", "Driver Assistance"],
+                description: "The Mercedes-Benz GLE offers luxurious comfort combined with impressive capability. With its spacious interior and advanced technology, it's perfect for family adventures.",
+                status: "available"
+            },
+            {
+                id: 3,
+                name: "Tesla Model S Plaid",
+                brand: "tesla",
+                type: "electric",
+                price: 135000,
+                image: "https://images.unsplash.com/photo-1560958089-b8a1929cea89?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                year: 2023,
+                fuel: "Electric",
+                transmission: "Automatic",
+                seats: 5,
+                engine: "Tri-motor",
+                power: "1020 HP",
+                mileage: "3,500",
+                color: "Midnight Silver",
+                features: ["Autopilot", "Ludicrous Mode", "Glass Roof", "Premium Audio", "Gaming Computer", "Bioweapon Defense"],
+                description: "The Tesla Model S Plaid redefines electric performance with its incredible acceleration and cutting-edge technology. Experience the future of automotive innovation.",
+                status: "reserved"
+            },
+            {
+                id: 4,
+                name: "Porsche 911 Turbo S",
+                brand: "porsche",
+                type: "sports",
+                price: 215000,
+                image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                year: 2023,
+                fuel: "Petrol",
+                transmission: "Automatic",
+                seats: 4,
+                engine: "3.8L Flat-6",
+                power: "640 HP",
+                mileage: "1,200",
+                color: "Guards Red",
+                features: ["Sport Chrono", "Carbon Ceramic Brakes", "Active Aero", "Premium Package", "Bose Sound", "Rear Axle Steering"],
+                description: "The Porsche 911 Turbo S represents the pinnacle of sports car engineering. With breathtaking performance and everyday usability, it's the ultimate supercar.",
+                status: "available"
+            },
+            {
+                id: 5,
+                name: "Audi e-tron GT",
+                brand: "audi",
+                type: "electric",
+                price: 105000,
+                image: "https://images.unsplash.com/photo-1592198084033-aade902d1aae?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                year: 2023,
+                fuel: "Electric",
+                transmission: "Automatic",
+                seats: 4,
+                engine: "Dual Motor",
+                power: "522 HP",
+                mileage: "6,800",
+                color: "Daytona Gray",
+                features: ["Virtual Cockpit", "Bang & Olufsen Sound", "Air Suspension", "Matrix LED", "Sport Package", "Driver Assistance"],
+                description: "The Audi e-tron GT combines stunning design with electric performance. This grand tourer offers luxury, technology, and sustainability in one package.",
+                status: "sold"
+            },
+            {
+                id: 6,
+                name: "BMW i7 xDrive60",
+                brand: "bmw",
+                type: "luxury",
+                price: 120000,
+                image: "https://images.unsplash.com/photo-1556189250-72ba954cfc2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                year: 2023,
+                fuel: "Electric",
+                transmission: "Automatic",
+                seats: 5,
+                engine: "Dual Motor",
+                power: "536 HP",
+                mileage: "4,500",
+                color: "Black Sapphire",
+                features: ["Theatre Screen", "Executive Lounge", "Sky Lounge Roof", "Bowers & Wilkins", "Autonomous Driving", "Massage Seats"],
+                description: "The BMW i7 sets new standards in luxury electric mobility. With its revolutionary interior and cutting-edge technology, it redefines the luxury sedan.",
+                status: "available"
+            },
+            {
+                id: 7,
+                name: "Jaguar F-Type R",
+                brand: "jaguar",
+                type: "sports",
+                price: 103000,
+                image: "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                year: 2023,
+                fuel: "Petrol",
+                transmission: "Automatic",
+                seats: 2,
+                engine: "5.0L V8",
+                power: "575 HP",
+                mileage: "2,300",
+                color: "British Racing Green",
+                features: ["Active Exhaust", "Carbon Package", "Meridian Sound", "Performance Seats", "Dynamic Mode", "Configurable Dynamics"],
+                description: "The Jaguar F-Type R delivers breathtaking performance with unmistakable British style. Its supercharged V8 provides an exhilarating driving experience.",
+                status: "available"
+            },
+            {
+                id: 8,
+                name: "Lexus RX 500h",
+                brand: "lexus",
+                type: "suv",
+                price: 68000,
+                image: "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                year: 2023,
+                fuel: "Hybrid",
+                transmission: "Automatic",
+                seats: 5,
+                engine: "2.4L Turbo Hybrid",
+                power: "366 HP",
+                mileage: "7,800",
+                color: "Nori Green",
+                features: ["Mark Levinson Sound", "Panoramic View", "Heated Steering", "Digital Mirrors", "Safety System+", "Wireless Charging"],
+                description: "The Lexus RX 500h combines luxury, efficiency, and performance. With its advanced hybrid system and premium features, it's the perfect family SUV.",
+                status: "available"
+            },
+            {
+                id: 9,
+                name: "Land Rover Defender",
+                brand: "landrover",
+                type: "suv",
+                price: 85000,
+                image: "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                year: 2023,
+                fuel: "Diesel",
+                transmission: "Automatic",
+                seats: 7,
+                engine: "3.0L I6",
+                power: "395 HP",
+                mileage: "5,600",
+                color: "Pangea Green",
+                features: ["Terrain Response", "Air Suspension", "ClearSight Ground View", "Third Row", "Premium Interior", "Advanced Tow"],
+                description: "The Land Rover Defender combines legendary capability with modern luxury. Ready for any adventure while providing exceptional comfort.",
+                status: "reserved"
+            },
+            {
+                id: 10,
+                name: "Porsche Taycan Turbo",
+                brand: "porsche",
+                type: "electric",
+                price: 185000,
+                image: "https://images.unsplash.com/photo-1593941707882-a5bba5331b6a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                year: 2023,
+                fuel: "Electric",
+                transmission: "Automatic",
+                seats: 4,
+                engine: "Dual Motor",
+                power: "670 HP",
+                mileage: "3,200",
+                color: "Mamba Green",
+                features: ["Performance Battery", "Sport Chrono", "Porsche Torque Vectoring", "Premium Package", "Burmester Sound", "InnoDrive"],
+                description: "The Porsche Taycan Turbo delivers sports car performance with zero emissions. Experience Porsche's racing heritage in an electric masterpiece.",
+                status: "available"
+            },
+            // Additional 20 vehicles would follow the same pattern...
+            {
+                id: 11,
+                name: "BMW X7 M60i",
+                brand: "bmw",
+                type: "suv",
+                price: 98000,
+                image: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                year: 2023,
+                fuel: "Petrol",
+                transmission: "Automatic",
+                seats: 7,
+                engine: "4.4L V8",
+                power: "523 HP",
+                mileage: "6,500",
+                color: "Mineral White",
+                features: ["Executive Package", "Bowers & Wilkins", "Air Suspension", "Panoramic Roof", "Captain Chairs", "Laser Lights"],
+                description: "The BMW X7 M60i offers supreme luxury and performance in a full-size SUV package. Perfect for those who demand the best of everything.",
+                status: "available"
+            },
+            {
+                id: 12,
+                name: "Mercedes-AMG GT",
+                brand: "mercedes",
+                type: "sports",
+                price: 165000,
+                image: "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                year: 2023,
+                fuel: "Petrol",
+                transmission: "Automatic",
+                seats: 2,
+                engine: "4.0L V8",
+                power: "577 HP",
+                mileage: "1,800",
+                color: "Selenite Grey",
+                features: ["AMG Performance", "Carbon Ceramic", "Race Mode", "Premium Sound", "Sport Exhaust", "Dynamic Plus"],
+                description: "The Mercedes-AMG GT combines breathtaking design with racetrack performance. A true sports car with Mercedes-Benz luxury.",
+                status: "available"
+            },
+            {
+                id: 13,
+                name: "Audi RS6 Avant",
+                brand: "audi",
+                type: "wagon",
+                price: 125000,
+                image: "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                year: 2023,
+                fuel: "Petrol",
+                transmission: "Automatic",
+                seats: 5,
+                engine: "4.0L V8",
+                power: "591 HP",
+                mileage: "4,200",
+                color: "Nardo Gray",
+                features: ["RS Sport Package", "Air Suspension", "Bang & Olufsen", "Carbon Optics", "Dynamic Package", "Head-up Display"],
+                description: "The Audi RS6 Avant is the ultimate performance wagon. Supercar performance with practical space for everything you need.",
+                status: "reserved"
+            },
+            {
+                id: 14,
+                name: "Tesla Model X",
+                brand: "tesla",
+                type: "suv",
+                price: 115000,
+                image: "https://images.unsplash.com/photo-1560958089-b8a1929cea89?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                year: 2023,
+                fuel: "Electric",
+                transmission: "Automatic",
+                seats: 7,
+                engine: "Dual Motor",
+                power: "670 HP",
+                mileage: "5,100",
+                color: "Pearl White",
+                features: ["Falcon Wing Doors", "Autopilot", "Premium Interior", "HEPA Filter", "Gaming System", "Towing Package"],
+                description: "The Tesla Model X redefines the SUV with its innovative design and electric performance. The ultimate family vehicle for the modern age.",
+                status: "available"
+            },
+            {
+                id: 15,
+                name: "Porsche Panamera Turbo S",
+                brand: "porsche",
+                type: "sedan",
+                price: 195000,
+                image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                year: 2023,
+                fuel: "Petrol",
+                transmission: "Automatic",
+                seats: 4,
+                engine: "4.0L V8",
+                power: "620 HP",
+                mileage: "2,900",
+                color: "Jet Black",
+                features: ["Sport Chrono", "Premium Package", "Burmester 3D", "PDCC", "Rear Axle Steering", "Carbon Interior"],
+                description: "The Porsche Panamera Turbo S combines sports car performance with luxury sedan comfort. The ultimate grand tourer for the discerning driver.",
+                status: "available"
+            },
+            // Adding more vehicles to reach 30...
+            {
+                id: 16,
+                name: "BMW M8 Competition",
+                brand: "bmw",
+                type: "coupe",
+                price: 145000,
+                image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                year: 2023,
+                fuel: "Petrol",
+                transmission: "Automatic",
+                seats: 4,
+                engine: "4.4L V8",
+                power: "617 HP",
+                mileage: "3,400",
+                color: "Barcelona Blue",
+                features: ["M Carbon Package", "Bowers & Wilkins", "Executive Package", "Laser Lights", "M Sport Exhaust", "Driving Assistant"],
+                description: "The BMW M8 Competition represents the pinnacle of BMW performance. A luxury grand tourer with supercar capabilities.",
+                status: "available"
+            },
+            {
+                id: 17,
+                name: "Mercedes-Benz S-Class",
+                brand: "mercedes",
+                type: "luxury",
+                price: 115000,
+                image: "https://images.unsplash.com/photo-1563720223480-8bfe38a750c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                year: 2023,
+                fuel: "Petrol",
+                transmission: "Automatic",
+                seats: 5,
+                engine: "3.0L I6",
+                power: "429 HP",
+                mileage: "7,200",
+                color: "Obsidian Black",
+                features: ["MBUX Hyperscreen", "Burmester 4D", "Executive Rear", "E-Active Body", "Energizing Comfort", "Driver Assistance"],
+                description: "The Mercedes-Benz S-Class sets the standard for luxury sedans. Experience unparalleled comfort and cutting-edge technology.",
+                status: "available"
+            },
+            {
+                id: 18,
+                name: "Audi Q8 Sportback",
+                brand: "audi",
+                type: "suv",
+                price: 78000,
+                image: "https://images.unsplash.com/photo-1592198084033-aade902d1aae?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                year: 2023,
+                fuel: "Petrol",
+                transmission: "Automatic",
+                seats: 5,
+                engine: "3.0L V6",
+                power: "335 HP",
+                mileage: "8,900",
+                color: "Navarra Blue",
+                features: ["S Line Package", "Virtual Cockpit", "Bang & Olufsen", "Air Suspension", "Black Optics", "Driver Assistance"],
+                description: "The Audi Q8 Sportback combines coupe styling with SUV practicality. A stylish and capable luxury SUV for the modern driver.",
+                status: "available"
+            },
+            {
+                id: 19,
+                name: "Tesla Model 3 Performance",
+                brand: "tesla",
+                type: "sedan",
+                price: 58000,
+                image: "https://images.unsplash.com/photo-1560958089-b8a1929cea89?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                year: 2023,
+                fuel: "Electric",
+                transmission: "Automatic",
+                seats: 5,
+                engine: "Dual Motor",
+                power: "450 HP",
+                mileage: "6,300",
+                color: "Deep Blue",
+                features: ["Autopilot", "Premium Interior", "Performance Upgrade", "Track Mode", "Premium Sound", "Wireless Charging"],
+                description: "The Tesla Model 3 Performance offers supercar acceleration with everyday practicality. The perfect electric vehicle for performance enthusiasts.",
+                status: "available"
+            },
+            {
+                id: 20,
+                name: "Porsche 718 Cayman GT4",
+                brand: "porsche",
+                type: "sports",
+                price: 112000,
+                image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                year: 2023,
+                fuel: "Petrol",
+                transmission: "Manual",
+                seats: 2,
+                engine: "4.0L Flat-6",
+                power: "414 HP",
+                mileage: "1,500",
+                color: "Racing Yellow",
+                features: ["Clubsport Package", "Porsche Ceramic", "Sport Chrono", "Lightweight Design", "GT Sport Seats", "PDK Transmission"],
+                description: "The Porsche 718 Cayman GT4 delivers pure sports car thrills with mid-engine balance and race-bred performance.",
+                status: "available"
+            },
+            // Continue with more vehicles to reach 30...
+            {
+                id: 21,
+                name: "BMW i4 M50",
+                brand: "bmw",
+                type: "electric",
+                price: 72000,
+                image: "https://images.unsplash.com/photo-1556189250-72ba954cfc2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                year: 2023,
+                fuel: "Electric",
+                transmission: "Automatic",
+                seats: 5,
+                engine: "Dual Motor",
+                power: "536 HP",
+                mileage: "4,800",
+                color: "Sanremo Green",
+                features: ["M Sport Package", "Harman Kardon", "Live Cockpit", "M Sport Brakes", "Driving Assistant", "Wireless Charging"],
+                description: "The BMW i4 M50 combines electric efficiency with M performance. Experience instant torque and agile handling in a stylish package.",
+                status: "available"
+            },
+            {
+                id: 22,
+                name: "Mercedes-AMG E63 S",
+                brand: "mercedes",
+                type: "sedan",
+                price: 118000,
+                image: "https://images.unsplash.com/photo-1563720223480-8bfe38a750c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                year: 2023,
+                fuel: "Petrol",
+                transmission: "Automatic",
+                seats: 5,
+                engine: "4.0L V8",
+                power: "603 HP",
+                mileage: "5,700",
+                color: "Selenite Grey",
+                features: ["AMG Performance", "Burmester Sound", "Air Body Control", "Night Package", "Driver Assistance", "Panoramic Roof"],
+                description: "The Mercedes-AMG E63 S is a luxury sedan with supercar performance. The perfect balance of comfort, technology, and power.",
+                status: "reserved"
+            },
+            {
+                id: 23,
+                name: "Audi RS Q8",
+                brand: "audi",
+                type: "suv",
+                price: 128000,
+                image: "https://images.unsplash.com/photo-1592198084033-aade902d1aae?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                year: 2023,
+                fuel: "Petrol",
+                transmission: "Automatic",
+                seats: 5,
+                engine: "4.0L V8",
+                power: "591 HP",
+                mileage: "3,900",
+                color: "Daytona Gray",
+                features: ["RS Sport Package", "Air Suspension", "Bang & Olufsen", "Carbon Package", "Dynamic Package", "Head-up Display"],
+                description: "The Audi RS Q8 is the ultimate performance SUV. Supercar power with the practicality and presence of a luxury SUV.",
+                status: "available"
+            },
+            {
+                id: 24,
+                name: "Tesla Cybertruck",
+                brand: "tesla",
+                type: "truck",
+                price: 79000,
+                image: "https://images.unsplash.com/photo-1560958089-b8a1929cea89?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                year: 2024,
+                fuel: "Electric",
+                transmission: "Automatic",
+                seats: 6,
+                engine: "Tri-motor",
+                power: "800 HP",
+                mileage: "1,200",
+                color: "Stainless Steel",
+                features: ["Exoskeleton", "Armor Glass", "Air Suspension", "Vault Storage", "240V Outlets", "Autopilot"],
+                description: "The Tesla Cybertruck redefines the pickup truck with its revolutionary design and electric performance. Built for any adventure.",
+                status: "available"
+            },
+            {
+                id: 25,
+                name: "Porsche Macan GTS",
+                brand: "porsche",
+                type: "suv",
+                price: 89000,
+                image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                year: 2023,
+                fuel: "Petrol",
+                transmission: "Automatic",
+                seats: 5,
+                engine: "2.9L V6",
+                power: "434 HP",
+                mileage: "7,100",
+                color: "Carmine Red",
+                features: ["Sport Chrono", "Air Suspension", "Bose Sound", "Sport Package", "Premium Package", "LED Headlights"],
+                description: "The Porsche Macan GTS offers sports car performance in a compact SUV package. The perfect daily driver for the performance enthusiast.",
+                status: "available"
+            },
+            {
+                id: 26,
+                name: "BMW Z4 M40i",
+                brand: "bmw",
+                type: "convertible",
+                price: 68000,
+                image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                year: 2023,
+                fuel: "Petrol",
+                transmission: "Automatic",
+                seats: 2,
+                engine: "3.0L I6",
+                power: "382 HP",
+                mileage: "4,300",
+                color: "Misano Blue",
+                features: ["M Sport Package", "Premium Package", "Heated Seats", "Harmon Kardon", "Driving Assistant", "Wireless Charging"],
+                description: "The BMW Z4 M40i is a pure roadster that delivers open-top driving pleasure with impressive performance and style.",
+                status: "available"
+            },
+            {
+                id: 27,
+                name: "Mercedes-Benz G-Class",
+                brand: "mercedes",
+                type: "suv",
+                price: 145000,
+                image: "https://images.unsplash.com/photo-1563720223480-8bfe38a750c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                year: 2023,
+                fuel: "Petrol",
+                transmission: "Automatic",
+                seats: 5,
+                engine: "4.0L V8",
+                power: "577 HP",
+                mileage: "2,800",
+                color: "Magno White",
+                features: ["AMG Line", "Burmester Sound", "Designo Interior", "Night Package", "Off-Road Package", "Comfort Suspension"],
+                description: "The Mercedes-Benz G-Class combines iconic design with modern luxury and capability. The ultimate statement vehicle for any occasion.",
+                status: "available"
+            },
+            {
+                id: 28,
+                name: "Audi R8 V10 Performance",
+                brand: "audi",
+                type: "sports",
+                price: 198000,
+                image: "https://images.unsplash.com/photo-1592198084033-aade902d1aae?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                year: 2023,
+                fuel: "Petrol",
+                transmission: "Automatic",
+                seats: 2,
+                engine: "5.2L V10",
+                power: "602 HP",
+                mileage: "900",
+                color: "Kemora Gray",
+                features: ["Carbon Package", "Bang & Olufsen", "Dynamic Steering", "Magnetic Ride", "Sport Exhaust", "Carbon Ceramic"],
+                description: "The Audi R8 V10 Performance delivers supercar thrills with everyday usability. Experience the heart of a race car in a luxury package.",
+                status: "available"
+            },
+            {
+                id: 29,
+                name: "Tesla Roadster",
+                brand: "tesla",
+                type: "sports",
+                price: 225000,
+                image: "https://images.unsplash.com/photo-1560958089-b8a1929cea89?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                year: 2024,
+                fuel: "Electric",
+                transmission: "Automatic",
+                seats: 2,
+                engine: "Tri-motor",
+                power: "1200 HP",
+                mileage: "0",
+                color: "Red Multi-Coat",
+                features: ["SpaceX Package", "Cold Air Thrusters", "Carbon Fiber", "Glass Roof", "Premium Sound", "Autopilot"],
+                description: "The Tesla Roadster represents the future of supercars. With unprecedented performance and electric efficiency, it redefines what's possible.",
+                status: "reserved"
+            },
+            {
+                id: 30,
+                name: "Porsche 911 GT3",
+                brand: "porsche",
+                type: "sports",
+                price: 175000,
+                image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                year: 2023,
+                fuel: "Petrol",
+                transmission: "Manual",
+                seats: 2,
+                engine: "4.0L Flat-6",
+                power: "502 HP",
+                mileage: "1,100",
+                color: "Shark Blue",
+                features: ["Clubsport Package", "Porsche Ceramic", "Sport Chrono", "Lightweight Package", "Bucket Seats", "PDK Transmission"],
+                description: "The Porsche 911 GT3 brings racetrack technology to the road. Experience pure driving pleasure with naturally aspirated perfection.",
+                status: "available"
+            }
+        ];
+
+        // DOM Elements
+        const vehiclesGrid = document.getElementById('vehiclesGrid');
+        const resultsCount = document.getElementById('resultsCount');
+        const noResults = document.getElementById('noResults');
+        const searchInput = document.querySelector('.search-input');
+        const typeFilter = document.getElementById('typeFilter');
+        const brandFilter = document.getElementById('brandFilter');
+        const priceFilter = document.getElementById('priceFilter');
+        const sortSelect = document.getElementById('sortSelect');
+        const vehicleModal = document.getElementById('vehicleModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalBody = document.getElementById('modalBody');
+        const closeModal = document.getElementById('closeModal');
+
+        // Favorite vehicles array
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+
+        // Initialize the showcase
+        function initShowcase() {
+            renderVehicles(vehicles);
+            setupEventListeners();
+            setupAnimations();
+        }
+
+        // Render vehicles to the grid
+        function renderVehicles(vehiclesToRender) {
+            vehiclesGrid.innerHTML = '';
+            
+            if (vehiclesToRender.length === 0) {
+                noResults.style.display = 'block';
+                resultsCount.textContent = '0';
+                return;
+            }
+            
+            noResults.style.display = 'none';
+            resultsCount.textContent = vehiclesToRender.length;
+            
+            vehiclesToRender.forEach(vehicle => {
+                const vehicleCard = createVehicleCard(vehicle);
+                vehiclesGrid.appendChild(vehicleCard);
+            });
+        }
+
+        // Create vehicle card HTML
+        function createVehicleCard(vehicle) {
+            const card = document.createElement('div');
+            card.className = 'vehicle-card fade-in';
+            
+            const isFavorite = favorites.includes(vehicle.id);
+            const badgeClass = `card-badge badge-${vehicle.status}`;
+            const badgeText = vehicle.status.charAt(0).toUpperCase() + vehicle.status.slice(1);
+            
+            card.innerHTML = `
+                <div class="${badgeClass}">${badgeText}</div>
+                <img src="${vehicle.image}" alt="${vehicle.name}" class="card-image">
+                <div class="card-content">
+                    <div class="card-header">
+                        <div>
+                            <h3 class="vehicle-name">${vehicle.name}</h3>
+                            <div class="vehicle-brand">${getBrandName(vehicle.brand)}</div>
+                        </div>
+                        <button class="favorite-btn ${isFavorite ? 'active' : ''}" data-id="${vehicle.id}">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="vehicle-type">${vehicle.type.charAt(0).toUpperCase() + vehicle.type.slice(1)}</div>
+                    <div class="quick-specs">
+                        <div class="quick-spec">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>${vehicle.year}</span>
+                        </div>
+                        <div class="quick-spec">
+                            <i class="fas fa-gas-pump"></i>
+                            <span>${vehicle.fuel}</span>
+                        </div>
+                        <div class="quick-spec">
+                            <i class="fas fa-user"></i>
+                            <span>${vehicle.seats} Seats</span>
+                        </div>
+                    </div>
+                    <div class="vehicle-price">$${vehicle.price.toLocaleString()}</div>
+                    <div class="card-actions">
+                        <button class="btn btn-outline" onclick="viewDetails(${vehicle.id})">
+                            <i class="fas fa-eye"></i> Details
+                        </button>
+                        <button class="btn btn-primary" onclick="contactDealer(${vehicle.id})" ${vehicle.status === 'sold' ? 'disabled' : ''}>
+                            <i class="fas fa-phone"></i> Contact
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        // Get brand full name
+        function getBrandName(brandKey) {
+            const brands = {
+                'bmw': 'BMW',
+                'mercedes': 'Mercedes-Benz',
+                'audi': 'Audi',
+                'tesla': 'Tesla',
+                'porsche': 'Porsche',
+                'jaguar': 'Jaguar',
+                'lexus': 'Lexus',
+                'landrover': 'Land Rover'
+            };
+            return brands[brandKey] || brandKey;
+        }
+
+        // Show vehicle details in modal
+        function viewDetails(vehicleId) {
+            const vehicle = vehicles.find(v => v.id === vehicleId);
+            if (!vehicle) return;
+            
+            modalTitle.textContent = `${vehicle.name} - Details`;
+            
+            modalBody.innerHTML = `
+                <div>
+                    <img src="${vehicle.image}" alt="${vehicle.name}" class="modal-image">
+                </div>
+                <div>
+                    <div class="modal-specs">
+                        <div class="spec-item">
+                            <div class="spec-icon"><i class="fas fa-calendar-alt"></i></div>
+                            <div class="spec-value">${vehicle.year}</div>
+                            <div class="spec-label">Year</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-icon"><i class="fas fa-gas-pump"></i></div>
+                            <div class="spec-value">${vehicle.fuel}</div>
+                            <div class="spec-label">Fuel Type</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-icon"><i class="fas fa-cogs"></i></div>
+                            <div class="spec-value">${vehicle.transmission}</div>
+                            <div class="spec-label">Transmission</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-icon"><i class="fas fa-user"></i></div>
+                            <div class="spec-value">${vehicle.seats}</div>
+                            <div class="spec-label">Seats</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            <div class="spec-value">${vehicle.engine}</div>
+                            <div class="spec-label">Engine</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-icon"><i class="fas fa-bolt"></i></div>
+                            <div class="spec-value">${vehicle.power}</div>
+                            <div class="spec-label">Power</div>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-description">
+                        <p>${vehicle.description}</p>
+                    </div>
+                    
+                    <div class="modal-features">
+                        <h4>Key Features</h4>
+                        <div class="features-grid">
+                            ${vehicle.features.map(feature => `
+                                <div class="feature-item">
+                                    <i class="fas fa-check"></i>
+                                    <span>${feature}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="modal-actions">
+                        <button class="btn btn-primary" onclick="contactDealer(${vehicle.id})" ${vehicle.status === 'sold' ? 'disabled' : ''}>
+                            <i class="fas fa-phone"></i> Contact Dealer
+                        </button>
+                        <button class="btn btn-outline" onclick="closeVehicleModal()">
+                            <i class="fas fa-times"></i> Close
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            vehicleModal.style.display = 'block';
+        }
+
+        // Close vehicle modal
+        function closeVehicleModal() {
+            vehicleModal.style.display = 'none';
+        }
+
+        // Filter and sort vehicles
+        function filterAndSortVehicles() {
+            let filtered = [...vehicles];
+            
+            // Search filter
+            const searchTerm = searchInput.value.toLowerCase();
+            if (searchTerm) {
+                filtered = filtered.filter(vehicle => 
+                    vehicle.name.toLowerCase().includes(searchTerm) ||
+                    vehicle.brand.toLowerCase().includes(searchTerm) ||
+                    vehicle.type.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            // Type filter
+            const typeValue = typeFilter.value;
+            if (typeValue !== 'all') {
+                filtered = filtered.filter(vehicle => vehicle.type === typeValue);
+            }
+            
+            // Brand filter
+            const brandValue = brandFilter.value;
+            if (brandValue !== 'all') {
+                filtered = filtered.filter(vehicle => vehicle.brand === brandValue);
+            }
+            
+            // Price filter
+            const priceValue = priceFilter.value;
+            if (priceValue !== 'all') {
+                const [min, max] = priceValue.split('-').map(val => val === '+' ? Infinity : parseInt(val));
+                filtered = filtered.filter(vehicle => {
+                    if (priceValue === '100000+') {
+                        return vehicle.price >= 100000;
+                    }
+                    return vehicle.price >= min && vehicle.price <= max;
+                });
+            }
+            
+            // Sort
+            const sortValue = sortSelect.value;
+            switch (sortValue) {
+                case 'price-low':
+                    filtered.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-high':
+                    filtered.sort((a, b) => b.price - a.price);
+                    break;
+                case 'newest':
+                    filtered.sort((a, b) => b.year - a.year);
+                    break;
+                default:
+                    // Featured - keep original order
+                    break;
+            }
+            
+            renderVehicles(filtered);
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            searchInput.addEventListener('input', filterAndSortVehicles);
+            typeFilter.addEventListener('change', filterAndSortVehicles);
+            brandFilter.addEventListener('change', filterAndSortVehicles);
+            priceFilter.addEventListener('change', filterAndSortVehicles);
+            sortSelect.addEventListener('change', filterAndSortVehicles);
+            
+            // Favorite button event delegation
+            vehiclesGrid.addEventListener('click', (e) => {
+                if (e.target.closest('.favorite-btn')) {
+                    const button = e.target.closest('.favorite-btn');
+                    const vehicleId = parseInt(button.dataset.id);
+                    toggleFavorite(vehicleId, button);
+                }
+            });
+            
+            // Modal close events
+            closeModal.addEventListener('click', closeVehicleModal);
+            vehicleModal.addEventListener('click', (e) => {
+                if (e.target === vehicleModal) {
+                    closeVehicleModal();
+                }
+            });
+        }
+
+        // Toggle favorite
+        function toggleFavorite(vehicleId, button) {
+            const index = favorites.indexOf(vehicleId);
+            
+            if (index > -1) {
+                favorites.splice(index, 1);
+                button.classList.remove('active');
+            } else {
+                favorites.push(vehicleId);
+                button.classList.add('active');
+            }
+            
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+        }
+
+        // Setup animations
+        function setupAnimations() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('appear');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // Placeholder function for contact dealer
+        function contactDealer(vehicleId) {
+            alert(`Contacting dealer about vehicle ID: ${vehicleId}\n\nThis would open a contact form or initiate a phone call to the dealership.`);
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initShowcase);
+    </script>
+</body>
+</html>

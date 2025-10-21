@@ -3,69 +3,200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoElite - Premium Car Dealership</title>
-    <link rel="stylesheet" href="styles/main.css">
+    <title>AutoElite | Premium Car Dealership</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components/navbar.css">
+    <link rel="stylesheet" href="styles/components/hero.css">
+    <link rel="stylesheet" href="styles/animations.css">
 </head>
 <body>
     <!-- Navigation Bar -->
     <nav class="navbar">
         <div class="nav-container">
-            <!-- Logo -->
-            <div class="nav-logo">
-                <a href="#">
-                    <i class="fas fa-car"></i>
-                    <span>Auto</span>Elite
-                </a>
-            </div>
+            <a href="#" class="logo">
+                <i class="fas fa-car logo-icon"></i>
+                <span class="logo-text">Auto<span>Elite</span></span>
+            </a>
 
-            <!-- Navigation Menu -->
-            <ul class="nav-menu">
+            <button class="mobile-toggle" id="mobileToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <ul class="nav-menu" id="navMenu">
                 <li class="nav-item">
-                    <a href="#" class="nav-link active">Home</a>
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Buy Cars</a>
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-car-side"></i>
+                        <span>Vehicles</span>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Rent Cars</a>
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Rental</span>
+                        <i class="fas fa-chevron-down" style="margin-left: 0.5rem; font-size: 0.8rem;"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-car"></i>
+                            <span>Available Cars</span>
+                        </a>
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-bookmark"></i>
+                            <span>Booking</span>
+                        </a>
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-history"></i>
+                            <span>Rental History</span>
+                        </a>
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-tag"></i>
+                            <span>Special Offers</span>
+                        </a>
+                    </div>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Services</a>
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-info-circle"></i>
+                        <span>About</span>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">About</a>
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-envelope"></i>
+                        <span>Contact</span>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Contact</a>
+                    <button class="theme-toggle" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
                 </li>
             </ul>
-
-            <!-- Right Side Actions -->
-            <div class="nav-actions">
-                <!-- Dark Mode Toggle -->
-                <button class="theme-toggle" id="themeToggle">
-                    <i class="fas fa-moon"></i>
-                    <i class="fas fa-sun"></i>
-                </button>
-
-                <!-- CTA Button -->
-                <button class="cta-button">
-                    <i class="fas fa-phone"></i>
-                    Book Test Drive
-                </button>
-
-                <!-- Mobile Menu Toggle -->
-                <div class="mobile-toggle" id="mobileToggle">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </div>
         </div>
     </nav>
 
-  
+    <!-- Hero Slider Section -->
+    <section class="hero-slider">
+        <!-- Slide 1 -->
+        <div class="slide active">
+            <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1494976388531-d1058494cdd8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')"></div>
+            <div class="slide-content">
+                <h1 class="fade-in">Luxury Redefined</h1>
+                <p class="slide-in-left">Experience the pinnacle of automotive excellence with our premium collection</p>
+                <a href="#" class="btn slide-in-right">Explore Collection <i class="fas fa-arrow-right"></i></a>
+                <div class="car-features">
+                    <div class="feature fade-in">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>High Performance</span>
+                    </div>
+                    <div class="feature fade-in">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Premium Safety</span>
+                    </div>
+                    <div class="feature fade-in">
+                        <i class="fas fa-cogs"></i>
+                        <span>Advanced Technology</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="slide">
+            <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')"></div>
+            <div class="slide-content">
+                <h1 class="fade-in">SUV Excellence</h1>
+                <p class="slide-in-left">Powerful, spacious, and ready for any adventure life throws your way</p>
+                <a href="#" class="btn slide-in-right">View SUVs <i class="fas fa-arrow-right"></i></a>
+                <div class="car-features">
+                    <div class="feature fade-in">
+                        <i class="fas fa-snowflake"></i>
+                        <span>All-Weather Capability</span>
+                    </div>
+                    <div class="feature fade-in">
+                        <i class="fas fa-users"></i>
+                        <span>7-Seater Options</span>
+                    </div>
+                    <div class="feature fade-in">
+                        <i class="fas fa-mountain"></i>
+                        <span>Off-Road Ready</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="slide">
+            <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')"></div>
+            <div class="slide-content">
+                <h1 class="fade-in">Electric Future</h1>
+                <p class="slide-in-left">Embrace sustainable luxury with our cutting-edge electric vehicle lineup</p>
+                <a href="#" class="btn slide-in-right">Discover EVs <i class="fas fa-arrow-right"></i></a>
+                <div class="car-features">
+                    <div class="feature fade-in">
+                        <i class="fas fa-bolt"></i>
+                        <span>Rapid Charging</span>
+                    </div>
+                    <div class="feature fade-in">
+                        <i class="fas fa-leaf"></i>
+                        <span>Zero Emissions</span>
+                    </div>
+                    <div class="feature fade-in">
+                        <i class="fas fa-robot"></i>
+                        <span>Autonomous Features</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4 -->
+        <div class="slide">
+            <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1555215695-3004980ad54e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')"></div>
+            <div class="slide-content">
+                <h1 class="fade-in">Sports Performance</h1>
+                <p class="slide-in-left">Unleash adrenaline with our high-performance sports car collection</p>
+                <a href="#" class="btn slide-in-right">Experience Thrill <i class="fas fa-arrow-right"></i></a>
+                <div class="car-features">
+                    <div class="feature fade-in">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>0-60 in 3.5s</span>
+                    </div>
+                    <div class="feature fade-in">
+                        <i class="fas fa-wind"></i>
+                        <span>Aerodynamic Design</span>
+                    </div>
+                    <div class="feature fade-in">
+                        <i class="fas fa-cog"></i>
+                        <span>Track-Tuned</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide Navigation -->
+        <button class="slide-nav prev-slide">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="slide-nav next-slide">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+
+        <!-- Slide Indicators -->
+        <div class="slide-indicators">
+            <div class="indicator active"></div>
+            <div class="indicator"></div>
+            <div class="indicator"></div>
+            <div class="indicator"></div>
+        </div>
+    </section>
 
     <script src="script/main.js"></script>
     <script src="script/dark-mode.js"></script>
