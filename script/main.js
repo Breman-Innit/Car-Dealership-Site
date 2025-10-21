@@ -140,3 +140,173 @@ document.querySelectorAll('.nav-item').forEach(item => {
         }
     }
 });
+
+// Featured vehicles data (4 cars)
+const featuredVehicles = [
+    {
+        id: 1,
+        name: "BMW M5 Competition",
+        brand: "BMW",
+        type: "Sedan",
+        price: 105000,
+        image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+        year: 2023,
+        fuel: "Petrol",
+        transmission: "Automatic",
+        seats: 5,
+        status: "available"
+    },
+    {
+        id: 2,
+        name: "Mercedes-Benz GLE",
+        brand: "Mercedes-Benz",
+        type: "SUV",
+        price: 75000,
+        image: "images/mercedes.jpg",
+        year: 2023,
+        fuel: "Diesel",
+        transmission: "Automatic",
+        seats: 7,
+        status: "available"
+    },
+    {
+        id: 3,
+        name: "Tesla Model S Plaid",
+        brand: "Tesla",
+        type: "Electric",
+        price: 135000,
+        image: "https://images.unsplash.com/photo-1560958089-b8a1929cea89?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+        year: 2023,
+        fuel: "Electric",
+        transmission: "Automatic",
+        seats: 5,
+        status: "reserved"
+    },
+    {
+        id: 4,
+        name: "Porsche 911 Turbo S",
+        brand: "Porsche",
+        type: "Sports",
+        price: 215000,
+        image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+        year: 2023,
+        fuel: "Petrol",
+        transmission: "Automatic",
+        seats: 4,
+        status: "available"
+    }
+];
+
+// DOM Elements
+const featuredVehiclesGrid = document.getElementById('featuredVehiclesGrid');
+
+// Initialize the featured vehicles
+function initFeaturedVehicles() {
+    renderFeaturedVehicles();
+    setupAnimations();
+    setupCounterAnimation();
+}
+
+// Render featured vehicles to the grid
+function renderFeaturedVehicles() {
+    if (!featuredVehiclesGrid) return;
+    
+    featuredVehiclesGrid.innerHTML = '';
+    
+    featuredVehicles.forEach(vehicle => {
+        const vehicleCard = createVehicleCard(vehicle);
+        featuredVehiclesGrid.appendChild(vehicleCard);
+    });
+}
+
+// Create vehicle card HTML (without buttons)
+function createVehicleCard(vehicle) {
+    const card = document.createElement('div');
+    card.className = 'vehicle-card fade-in';
+    
+    const badgeClass = `card-badge badge-${vehicle.status}`;
+    const badgeText = vehicle.status.charAt(0).toUpperCase() + vehicle.status.slice(1);
+    
+    card.innerHTML = `
+        <div class="${badgeClass}">${badgeText}</div>
+        <img src="${vehicle.image}" alt="${vehicle.name}" class="card-image">
+        <div class="card-content">
+            <div class="card-header">
+                <div>
+                    <h3 class="vehicle-name">${vehicle.name}</h3>
+                    <div class="vehicle-brand">${vehicle.brand}</div>
+                </div>
+                <div class="vehicle-price">$${vehicle.price.toLocaleString()}</div>
+            </div>
+            <div class="vehicle-type">${vehicle.type}</div>
+            <div class="quick-specs">
+                <div class="quick-spec">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>${vehicle.year}</span>
+                </div>
+                <div class="quick-spec">
+                    <i class="fas fa-gas-pump"></i>
+                    <span>${vehicle.fuel}</span>
+                </div>
+                <div class="quick-spec">
+                    <i class="fas fa-user"></i>
+                    <span>${vehicle.seats} Seats</span>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    return card;
+}
+
+// Setup animations
+function setupAnimations() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('appear');
+            }
+        });
+    }, { threshold: 0.1 });
+    
+    document.querySelectorAll('.fade-in').forEach(el => {
+        observer.observe(el);
+    });
+}
+
+// Counter animation for statistics
+function setupCounterAnimation() {
+    const counters = document.querySelectorAll('.stat-number');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const counter = entry.target;
+                const target = +counter.getAttribute('data-target');
+                const duration = 2000; // 2 seconds
+                const step = target / (duration / 16); // 60fps
+                let current = 0;
+                
+                const updateCounter = () => {
+                    current += step;
+                    if (current < target) {
+                        counter.textContent = Math.ceil(current) + (counter.getAttribute('data-target') === '98' ? '%' : '+');
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counter.textContent = target + (counter.getAttribute('data-target') === '98' ? '%' : '+');
+                    }
+                };
+                
+                updateCounter();
+                observer.unobserve(counter);
+            }
+        });
+    }, { threshold: 0.5 });
+    
+    counters.forEach(counter => {
+        observer.observe(counter);
+    });
+}
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', initFeaturedVehicles);
