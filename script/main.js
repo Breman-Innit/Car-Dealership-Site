@@ -149,7 +149,7 @@ const featuredVehicles = [
         brand: "BMW",
         type: "Sedan",
         price: 105000,
-        image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+        image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" ,
         year: 2023,
         fuel: "Petrol",
         transmission: "Automatic",

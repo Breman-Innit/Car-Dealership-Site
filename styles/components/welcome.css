@@ -247,6 +247,7 @@
 .btn-primary {
     background: var(--primary);
     color: white;
+    
 }
 
 .btn-primary:hover {

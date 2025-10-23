@@ -184,21 +184,148 @@
     }
 }
 
-@media (max-width: 576px) {
+@media (max-width: 768px) {
+    .hero-slider {
+        height: 50vh; /* Much shorter to show full cars */
+        margin-top: 60px;
+    }
+    
+    .slide::before {
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3)); /* Lighter overlay */
+    }
+    
+    .slide-bg {
+        background-position: center 20%; /* Better car framing */
+        background-size: cover;
+    }
+    
+    .slide-content {
+        padding-top: 1rem; /* Push content up */
+        max-width: 90%;
+    }
+    
     .slide h1 {
-        font-size: 2.2rem;
+        font-size: 1.8rem;
+        margin-bottom: 0.8rem;
     }
 
     .slide p {
+        font-size: 0.9rem;
+        margin-bottom: 1.2rem;
+    }
+    
+    .car-features {
+        gap: 0.6rem;
+        margin-top: 1rem;
+    }
+    
+    .feature {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.7rem;
+    }
+    
+    .feature i {
+        font-size: 0.9rem;
+        margin-right: 0.4rem;
+    }
+    
+    .slide-nav {
+        width: 35px;
+        height: 35px;
         font-size: 1rem;
     }
+    
+    .prev-slide {
+        left: 8px;
+    }
+    
+    .next-slide {
+        right: 8px;
+    }
+    
+    .slide-indicators {
+        bottom: 15px;
+    }
+    
+    .indicator {
+        width: 8px;
+        height: 8px;
+    }
+}
 
+@media (max-width: 576px) {
+    .hero-slider {
+        height: 45vh; /* Even shorter for full car visibility */
+    }
+    
+    .slide h1 {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .slide p {
+        font-size: 0.8rem;
+        margin-bottom: 0.8rem;
+    }
+    
     .car-features {
-        gap: 1rem;
+        flex-direction: row; /* Keep horizontal if possible */
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        justify-content: center;
     }
-
+    
     .feature {
-        padding: 0.6rem 1rem;
-        font-size: 0.9rem;
+        padding: 0.3rem 0.6rem;
+        font-size: 0.65rem;
+        flex: 0 0 auto;
     }
+    
+    .feature i {
+        font-size: 0.8rem;
+        margin-right: 0.3rem;
+    }
+    
+    .btn {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.8rem;
+    }
+    
+    .slide-indicators {
+        bottom: 10px;
+    }
+    
+    .slide-nav {
+        display: none; /* Hide arrows on very small screens */
+    }
+}
+
+/* Portrait orientation specific fixes */
+@media (max-width: 768px) and (orientation: portrait) {
+    .hero-slider {
+        height: 40vh; /* Even shorter for portrait */
+    }
+    
+    .slide-bg {
+        background-position: center 15%;
+    }
+}
+
+/* Landscape orientation on mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+    .hero-slider {
+        height: 60vh; /* Taller for landscape */
+    }
+    
+    .slide-bg {
+        background-position: center 25%;
+    }
+}
+
+/* Ensure background images show full cars */
+.slide-bg {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    object-fit: cover;
 }
