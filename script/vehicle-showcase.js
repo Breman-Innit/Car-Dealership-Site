@@ -184,3 +184,16 @@ document.addEventListener('DOMContentLoaded', function() {
 function viewVehicleDetails(vehicleId) {
     alert(`Viewing details for vehicle ID: ${vehicleId}\n\nThis would open a detailed modal with specifications and booking options.`);
 }
+
+function updateCardsPerView() {
+    const width = window.innerWidth;
+    if (width <= 768) {
+        cardsPerView = 1;
+    } else if (width <= 992) {
+        cardsPerView = 2;
+    } else if (width <= 1200) {
+        cardsPerView = 3;
+    } else {
+        cardsPerView = 4;
+    }
+}
