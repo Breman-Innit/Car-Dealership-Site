@@ -1395,7 +1395,7 @@
 
         /* Process Section */
         .process-section {
-            background: linear-gradient(135deg, var(--light) 0%, #f1f5f9 100%);
+            background: var(--light);
         }
 
         .process-steps {
