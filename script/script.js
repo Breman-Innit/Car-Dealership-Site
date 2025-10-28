@@ -179,7 +179,7 @@
                 brand: "Mercedes-Benz",
                 type: "SUV",
                 price: 75000,
-                image: "https://images.unsplash.com/photo-1563720223480-8bfe38a750c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                image: "images/mercedes.jpg",
                 year: 2023,
                 fuel: "Diesel",
                 transmission: "Automatic",
@@ -340,4 +340,51 @@
         // Observe all fade-in elements
         document.querySelectorAll('.fade-in').forEach(element => {
             appearOnScroll.observe(element);
+        });
+
+         appearOnScroll = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('appear');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        // Observe all animated elements
+        document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right').forEach(element => {
+            appearOnScroll.observe(element);
+        });
+
+           appearOnScroll = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('appear');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        // Observe all fade-in elements
+        document.querySelectorAll('.fade-in').forEach(element => {
+            appearOnScroll.observe(element);
+        });
+
+        // Back to top functionality
+        document.querySelector('.back-to-top').addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Newsletter form submission
+        document.querySelector('.newsletter-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            const email = document.querySelector('.newsletter-input').value;
+            if (email) {
+                alert(`Thank you for subscribing with: ${email}`);
+                document.querySelector('.newsletter-input').value = '';
+            } else {
+                alert('Please enter your email address');
+            }
         });
