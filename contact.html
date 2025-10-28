@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us - AutoElite</title>
+    <title>Contact Us - AutoElite Ghana</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
     <style>
         /* CSS Variables for Theme */
         :root {
@@ -112,6 +114,38 @@
             color: var(--primary);
         }
 
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            background: var(--primary);
+            color: white;
+            padding: 0.9rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+        }
+
         /* Animation Classes */
         .fade-in {
             opacity: 0;
@@ -122,28 +156,6 @@
         .fade-in.appear {
             opacity: 1;
             transform: translateY(0);
-        }
-
-        .slide-in-left {
-            opacity: 0;
-            transform: translateX(-50px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-
-        .slide-in-left.appear {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .slide-in-right {
-            opacity: 0;
-            transform: translateX(50px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-
-        .slide-in-right.appear {
-            opacity: 1;
-            transform: translateX(0);
         }
 
         /* Contact Hero Section */
@@ -403,34 +415,120 @@
             border-radius: 1.5rem;
             overflow: hidden;
             box-shadow: var(--shadow-xl);
-            height: 400px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            height: 600px;
             position: relative;
         }
 
-        .map-placeholder {
-            text-align: center;
-            color: white;
+        .map-controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: var(--shadow-lg);
+            z-index: 1000;
+            max-width: 300px;
+            backdrop-filter: blur(10px);
         }
 
-        .map-placeholder i {
-            font-size: 4rem;
+        .map-controls h3 {
+            color: var(--dark);
             margin-bottom: 1rem;
-            opacity: 0.8;
+            font-size: 1.2rem;
         }
 
-        .map-placeholder h3 {
-            font-size: 1.5rem;
+        .transport-options {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .transport-btn {
+            flex: 1;
+            padding: 0.5rem;
+            border: 2px solid var(--gray-light);
+            background: white;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .transport-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .transport-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .directions-info {
+            background: var(--light);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .directions-info.active {
+            display: block;
+        }
+
+        .route-details {
+            color: var(--dark);
+            font-size: 0.9rem;
+        }
+
+        .route-details div {
             margin-bottom: 0.5rem;
+        }
+
+        .get-directions-btn {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 1rem;
+        }
+
+        .get-directions-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
         }
 
         /* FAQ Section */
         .faq-section {
             padding: 80px 0;
             background: var(--light);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         .faq-grid {
@@ -523,6 +621,31 @@
             background: var(--primary);
         }
 
+        .footer-col p {
+            color: #cbd5e1;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
         .footer-bottom {
             text-align: center;
             padding-top: 2rem;
@@ -544,6 +667,14 @@
             
             .footer-grid {
                 grid-template-columns: 1fr 1fr;
+            }
+            
+            .map-controls {
+                position: relative;
+                top: 0;
+                right: 0;
+                margin-bottom: 1rem;
+                max-width: 100%;
             }
         }
 
@@ -567,6 +698,10 @@
             .footer-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .map-container {
+                height: 500px;
+            }
         }
 
         @media (max-width: 576px) {
@@ -581,6 +716,43 @@
             .info-card {
                 padding: 2rem;
             }
+            
+            .transport-options {
+                flex-direction: column;
+            }
+        }
+
+        /* Leaflet Custom Styles */
+        .leaflet-popup-content-wrapper {
+            border-radius: 1rem;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .leaflet-popup-content {
+            margin: 1rem;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .leaflet-popup-content h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .leaflet-popup-content p {
+            color: var(--gray);
+            margin: 0;
+        }
+
+        .leaflet-routing-container {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow-lg);
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .leaflet-routing-alt {
+            max-height: 150px;
         }
     </style>
 </head>
@@ -603,8 +775,8 @@
     <section class="contact-hero">
         <div class="container">
             <div class="contact-hero-content fade-in">
-                <h1>Get In Touch</h1>
-                <p>Ready to experience premium automotive service? Our team is here to assist you with all your luxury vehicle needs.</p>
+                <h1>Visit Our Ghana Showroom</h1>
+                <p>Located in the heart of Accra's premium automotive district. Get turn-by-turn directions to our exclusive showroom.</p>
             </div>
         </div>
     </section>
@@ -669,9 +841,9 @@
                         </div>
                         <div class="info-content">
                             <h3>Visit Our Showroom</h3>
-                            <p>123 Premium Avenue</p>
-                            <p>Luxury District, CA 90210</p>
-                            <a href="#" class="info-link">
+                            <p>Villagio Towers, Airport City</p>
+                            <p>Accra, Ghana</p>
+                            <a href="#map" class="info-link">
                                 <span>Get Directions</span>
                                 <i class="fas fa-arrow-right"></i>
                             </a>
@@ -684,10 +856,10 @@
                         </div>
                         <div class="info-content">
                             <h3>Call Us</h3>
-                            <p>+1 (555) 123-4567</p>
-                            <p>Mon-Fri: 9AM-7PM</p>
-                            <p>Sat: 10AM-5PM</p>
-                            <a href="tel:+15551234567" class="info-link">
+                            <p>+233 24 123 4567</p>
+                            <p>Mon-Fri: 8AM-6PM</p>
+                            <p>Sat: 9AM-4PM</p>
+                            <a href="tel:+233241234567" class="info-link">
                                 <span>Call Now</span>
                                 <i class="fas fa-phone"></i>
                             </a>
@@ -700,9 +872,9 @@
                         </div>
                         <div class="info-content">
                             <h3>Email Us</h3>
-                            <p>info@autoelite.com</p>
+                            <p>ghana@autoelite.com</p>
                             <p>support@autoelite.com</p>
-                            <a href="mailto:info@autoelite.com" class="info-link">
+                            <a href="mailto:ghana@autoelite.com" class="info-link">
                                 <span>Send Email</span>
                                 <i class="fas fa-envelope"></i>
                             </a>
@@ -716,11 +888,25 @@
     <!-- Map Section -->
     <section class="map-section">
         <div class="container">
-            <div class="map-container fade-in">
-                <div class="map-placeholder">
-                    <i class="fas fa-map-marked-alt"></i>
-                    <h3>Interactive Map</h3>
-                    <p>Our premium showroom location</p>
+            <div class="map-container fade-in" id="map">
+                <div class="map-controls">
+                    <h3>Get Directions</h3>
+                    <div class="transport-options">
+                        <button class="transport-btn active" data-transport="car">
+                            <i class="fas fa-car"></i> Car
+                        </button>
+                        <button class="transport-btn" data-transport="foot">
+                            <i class="fas fa-walking"></i> Walk
+                        </button>
+                    </div>
+                    <button class="get-directions-btn" id="getDirections">
+                        <i class="fas fa-route"></i> Get Directions from My Location
+                    </button>
+                    <div class="directions-info" id="directionsInfo">
+                        <div class="route-details" id="routeDetails">
+                            <!-- Route details will appear here -->
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -783,8 +969,8 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col">
-                    <h3>AutoElite</h3>
-                    <p>Your premier destination for luxury automotive excellence. Experience unparalleled service and access to the world's finest vehicles.</p>
+                    <h3>AutoElite Ghana</h3>
+                    <p>Your premier destination for luxury automotive excellence in West Africa. Experience unparalleled service and access to the world's finest vehicles.</p>
                 </div>
                 
                 <div class="footer-col">
@@ -810,20 +996,194 @@
                 <div class="footer-col">
                     <h3>Contact</h3>
                     <ul class="footer-links">
-                        <li><a href="tel:+15551234567">+1 (555) 123-4567</a></li>
-                        <li><a href="mailto:info@autoelite.com">info@autoelite.com</a></li>
-                        <li><a href="#">123 Premium Avenue</a></li>
+                        <li><a href="tel:+233241234567">+233 24 123 4567</a></li>
+                        <li><a href="mailto:ghana@autoelite.com">ghana@autoelite.com</a></li>
+                        <li><a href="#">Villagio Towers, Airport City</a></li>
                     </ul>
                 </div>
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2023 AutoElite. All Rights Reserved. | Designed for Automotive Excellence</p>
+                <p>&copy; 2023 AutoElite Ghana. All Rights Reserved. | Designed for Automotive Excellence</p>
             </div>
         </div>
     </footer>
 
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+    
     <script>
+        // AutoElite Ghana Location - Villagio Towers, Airport City, Accra
+        const AUTOELITE_LOCATION = [5.6037, -0.1870];
+        let map, routingControl;
+        let currentTransport = 'car';
+
+        // Initialize Map when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize the map centered on AutoElite Ghana
+            map = L.map('map').setView(AUTOELITE_LOCATION, 15);
+            
+            // Add OpenStreetMap tiles
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors',
+                maxZoom: 19
+            }).addTo(map);
+            
+            // Create custom icon
+            const customIcon = L.divIcon({
+                html: `
+                    <div style="background: #0b785d; width: 50px; height: 50px; border-radius: 50%; border: 3px solid white; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px; box-shadow: 0 4px 12px rgba(11, 120, 93, 0.4);">
+                        <i class="fas fa-car"></i>
+                    </div>
+                `,
+                className: 'custom-marker',
+                iconSize: [50, 50],
+                iconAnchor: [25, 50]
+            });
+            
+            // Add AutoElite marker
+            const marker = L.marker(AUTOELITE_LOCATION, { 
+                icon: customIcon 
+            }).addTo(map);
+            
+            // Add popup
+            marker.bindPopup(`
+                <div style="padding: 10px;">
+                    <h3 style="margin: 0 0 8px 0; color: #0b785d; font-size: 1.2rem;">AutoElite Ghana Showroom</h3>
+                    <p style="margin: 4px 0; color: #666; font-size: 0.9rem;">📍 Villagio Towers, Airport City</p>
+                    <p style="margin: 4px 0; color: #666; font-size: 0.9rem;">🏢 Accra, Ghana</p>
+                    <p style="margin: 4px 0; color: #666; font-size: 0.9rem;">📞 +233 24 123 4567</p>
+                </div>
+            `).openPopup();
+        });
+
+        // Transport mode selection
+        document.querySelectorAll('.transport-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.transport-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentTransport = this.dataset.transport;
+            });
+        });
+
+        // Get Directions functionality
+        document.getElementById('getDirections').addEventListener('click', function() {
+            const directionsInfo = document.getElementById('directionsInfo');
+            const routeDetails = document.getElementById('routeDetails');
+            
+            // Show loading state
+            this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Getting Your Location...';
+            this.disabled = true;
+            
+            // Get user's current location
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const userLocation = [
+                            position.coords.latitude,
+                            position.coords.longitude
+                        ];
+                        
+                        // Calculate and display route
+                        calculateRoute(userLocation, AUTOELITE_LOCATION);
+                    },
+                    function(error) {
+                        document.getElementById('getDirections').innerHTML = '<i class="fas fa-route"></i> Get Directions from My Location';
+                        document.getElementById('getDirections').disabled = false;
+                        alert('Unable to get your location. Please ensure location services are enabled.');
+                    },
+                    {
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        maximumAge: 0
+                    }
+                );
+            } else {
+                alert('Geolocation is not supported by this browser.');
+                document.getElementById('getDirections').innerHTML = '<i class="fas fa-route"></i> Get Directions from My Location';
+                document.getElementById('getDirections').disabled = false;
+            }
+        });
+
+        function calculateRoute(start, end) {
+            // Remove existing routing control if any
+            if (routingControl) {
+                map.removeControl(routingControl);
+            }
+            
+            // Set routing profile based on transport mode
+            const profile = currentTransport === 'car' ? 'mapbox/driving' : 'mapbox/walking';
+            
+            // Create routing control
+            routingControl = L.Routing.control({
+                waypoints: [
+                    L.latLng(start[0], start[1]),
+                    L.latLng(end[0], end[1])
+                ],
+                routeWhileDragging: false,
+                showAlternatives: false,
+                fitSelectedRoutes: true,
+                show: false, // Hide the instructions panel
+                lineOptions: {
+                    styles: [
+                        {
+                            color: '#0b785d',
+                            opacity: 0.8,
+                            weight: 6
+                        }
+                    ]
+                },
+                createMarker: function(i, waypoint, n) {
+                    if (i === 0) {
+                        // Start marker (user location)
+                        return L.marker(waypoint.latLng, {
+                            icon: L.divIcon({
+                                html: '<div style="background: #f59e0b; width: 30px; height: 30px; border-radius: 50%; border: 3px solid white; display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4);"><i class="fas fa-user"></i></div>',
+                                iconSize: [30, 30],
+                                iconAnchor: [15, 30]
+                            })
+                        });
+                    }
+                    // Destination marker (AutoElite) - we already have this
+                    return null;
+                }
+            }).addTo(map);
+            
+            // Listen for route found event
+            routingControl.on('routesfound', function(e) {
+                const routes = e.routes;
+                const summary = routes[0].summary;
+                
+                // Convert distance from meters to kilometers
+                const distanceKm = (summary.totalDistance / 1000).toFixed(1);
+                
+                // Convert time from seconds to minutes
+                const timeMinutes = Math.round(summary.totalTime / 60);
+                
+                // Update route details display
+                const routeDetails = document.getElementById('routeDetails');
+                routeDetails.innerHTML = `
+                    <div><strong>Distance:</strong> ${distanceKm} km</div>
+                    <div><strong>Estimated Time:</strong> ${timeMinutes} minutes by ${currentTransport}</div>
+                    <div><strong>Transport:</strong> ${currentTransport === 'car' ? 'Car 🚗' : 'Walking 🚶'}</div>
+                `;
+                
+                // Show directions info
+                document.getElementById('directionsInfo').classList.add('active');
+                
+                // Reset button
+                document.getElementById('getDirections').innerHTML = '<i class="fas fa-route"></i> Get New Directions';
+                document.getElementById('getDirections').disabled = false;
+            });
+            
+            routingControl.on('routingerror', function(e) {
+                alert('Unable to calculate route. Please try again.');
+                document.getElementById('getDirections').innerHTML = '<i class="fas fa-route"></i> Get Directions from My Location';
+                document.getElementById('getDirections').disabled = false;
+            });
+        }
+
         // Fade-in animation on scroll
         const appearOnScroll = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -861,6 +1221,9 @@
                     submitBtn.innerHTML = originalText;
                     submitBtn.disabled = false;
                     document.querySelector('.contact-form').reset();
+                    
+                    // Show success message
+                    alert('Thank you for your message! We will get back to you within 24 hours.');
                 }, 2000);
             }, 1500);
         });
