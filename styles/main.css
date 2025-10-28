@@ -1,7 +1,6 @@
-/* CSS Variables for Theme */
 :root {
-    --primary: #282828;
-    --primary-dark: #1d4ed8;
+    --primary: #0b785d;
+    --primary-dark: #0a5c4a; /* Changed from blue to darker green */
     --secondary: #f59e0b;
     --dark: #1e293b;
     --light: #f8fafc;
@@ -50,13 +49,13 @@ body {
     border: none;
     cursor: pointer;
     font-size: 1rem;
-    box-shadow: 0 4px 6px #F2EFEA
+    box-shadow: 0 2px 2px #F2EFEA;
 }
 
 .btn:hover {
     background: var(--primary-dark);
     transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+    box-shadow: 0 6px 20px rgba(11, 120, 93, 0.4); 
 }
 
 .btn i {
