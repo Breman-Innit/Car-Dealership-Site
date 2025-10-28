@@ -327,3 +327,17 @@
 
         // Initialize when DOM is loaded
         document.addEventListener('DOMContentLoaded', initFeaturedVehicles);
+
+           // Fade-in animation on scroll
+         appearOnScroll = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('appear');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        // Observe all fade-in elements
+        document.querySelectorAll('.fade-in').forEach(element => {
+            appearOnScroll.observe(element);
+        });
