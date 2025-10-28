@@ -1565,6 +1565,11 @@
             .section-title {
                 font-size: 2rem;
             }
+            .member-bio {
+                font-size: 0.85rem;
+                width: 90%;
+                margin-left: 10px;
+            }   
             
             .testimonials-grid {
                 grid-template-columns: 1fr;
