@@ -23,14 +23,22 @@
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
             --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --bg-color: #f8fafc;
+            --text-color: #1e293b;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
         }
 
         /* Dark Theme Variables */
         .dark-theme {
-            --dark: #1e293b;
-            --light: #f8fafc;
+            --dark: #f8fafc;
+            --light: #1e293b;
             --gray: #cbd5e1;
             --gray-light: #334155;
+            --bg-color: #0f172a;
+            --text-color: #f1f5f9;
+            --card-bg: #1e293b;
+            --border-color: #334155;
         }
 
         /* Base Styles */
@@ -46,8 +54,8 @@
 
         body {
             font-family: 'Montserrat', sans-serif;
-            background-color: var(--light);
-            color: var(--dark);
+            background-color: var(--bg-color);
+            color: var(--text-color);
             transition: var(--transition);
             line-height: 1.6;
             overflow-x: hidden;
@@ -68,7 +76,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            background-color: var(--light);
+            background-color: var(--bg-color);
             box-shadow: var(--shadow);
             z-index: 1000;
             transition: var(--transition);
@@ -79,6 +87,10 @@
             padding: 0.5rem 5%;
             backdrop-filter: blur(10px);
             background-color: rgba(248, 250, 252, 0.95);
+        }
+
+        .dark-theme .navbar.scrolled {
+            background-color: rgba(15, 23, 42, 0.95);
         }
 
         .nav-container {
@@ -104,12 +116,60 @@
         .logo-text {
             font-size: 1.5rem;
             font-weight: 700;
-            color: var(--dark);
+            color: var(--text-color);
             transition: var(--transition);
         }
 
         .logo-text span {
             color: var(--primary);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-color);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .theme-toggle:hover {
+            background-color: rgba(11, 120, 93, 0.1);
+        }
+
+        .theme-toggle i {
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .theme-toggle .fa-sun {
+            position: absolute;
+            opacity: 0;
+            transform: rotate(90deg);
+        }
+
+        .dark-theme .theme-toggle .fa-moon {
+            opacity: 0;
+            transform: rotate(-90deg);
+        }
+
+        .dark-theme .theme-toggle .fa-sun {
+            opacity: 1;
+            transform: rotate(0);
         }
 
         .btn {
@@ -236,7 +296,7 @@
         /* Contact Section */
         .contact-section {
             padding: 100px 0;
-            background: linear-gradient(135deg, var(--light) 0%, #f1f5f9 100%);
+            background: linear-gradient(135deg, var(--bg-color) 0%, var(--card-bg) 100%);
         }
 
         .contact-grid {
@@ -248,12 +308,13 @@
 
         /* Contact Form */
         .contact-form-container {
-            background: var(--light);
+            background: var(--card-bg);
             padding: 3rem;
             border-radius: 1.5rem;
             box-shadow: var(--shadow-xl);
             position: relative;
             overflow: hidden;
+            border: 1px solid var(--border-color);
         }
 
         .contact-form-container::before {
@@ -278,7 +339,7 @@
 
         .form-header h2 {
             font-size: 2.2rem;
-            color: var(--dark);
+            color: var(--text-color);
             margin-bottom: 0.5rem;
         }
 
@@ -296,16 +357,16 @@
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 600;
-            color: var(--dark);
+            color: var(--text-color);
         }
 
         .form-input, .form-textarea, .form-select {
             width: 100%;
             padding: 1rem 1.2rem;
-            border: 2px solid var(--gray-light);
+            border: 2px solid var(--border-color);
             border-radius: 0.8rem;
-            background: var(--light);
-            color: var(--dark);
+            background: var(--card-bg);
+            color: var(--text-color);
             font-family: 'Montserrat', sans-serif;
             font-size: 1rem;
             transition: var(--transition);
@@ -328,6 +389,10 @@
             background-repeat: no-repeat;
             background-position: right 1.2rem center;
             background-size: 1.2rem;
+        }
+
+        .dark-theme .form-select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23cbd5e1'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
         }
 
         .submit-btn {
@@ -362,13 +427,14 @@
         }
 
         .info-card {
-            background: var(--light);
+            background: var(--card-bg);
             padding: 2.5rem;
             border-radius: 1.5rem;
             box-shadow: var(--shadow-lg);
             transition: var(--transition);
             position: relative;
             overflow: hidden;
+            border: 1px solid var(--border-color);
         }
 
         .info-card::before {
@@ -412,7 +478,7 @@
         .info-content h3 {
             font-size: 1.4rem;
             margin-bottom: 1rem;
-            color: var(--dark);
+            color: var(--text-color);
         }
 
         .info-content p {
@@ -441,6 +507,10 @@
             padding: 80px 0;
             background: var(--dark);
             color: var(--light);
+        }
+
+        .dark-theme .location-section {
+            background: #1e293b;
         }
 
         .location-content {
@@ -490,7 +560,7 @@
         /* FAQ Section */
         .faq-section {
             padding: 80px 0;
-            background: var(--light);
+            background: var(--bg-color);
         }
 
         .section-header {
@@ -502,7 +572,7 @@
             font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 0.5rem;
-            color: var(--dark);
+            color: var(--text-color);
         }
 
         .section-subtitle {
@@ -519,12 +589,13 @@
         }
 
         .faq-item {
-            background: var(--light);
+            background: var(--card-bg);
             border-radius: 1rem;
             padding: 2rem;
             box-shadow: var(--shadow);
             transition: var(--transition);
             cursor: pointer;
+            border: 1px solid var(--border-color);
         }
 
         .faq-item:hover {
@@ -541,7 +612,7 @@
 
         .faq-question h3 {
             font-size: 1.2rem;
-            color: var(--dark);
+            color: var(--text-color);
         }
 
         .faq-toggle {
@@ -694,6 +765,15 @@
                 flex-direction: column;
                 align-items: center;
             }
+            
+            .nav-actions {
+                gap: 0.5rem;
+            }
+            
+            .theme-toggle {
+                width: 40px;
+                height: 40px;
+            }
         }
 
         @media (max-width: 576px) {
@@ -730,6 +810,10 @@
             </a>
             
             <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                    <i class="fas fa-moon"></i>
+                    <i class="fas fa-sun"></i>
+                </button>
                 <a href="index.html" class="btn btn-secondary">Back to Home</a>
             </div>
         </div>
@@ -996,6 +1080,28 @@
     </footer>
 
     <script>
+        // Theme Toggle Functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        
+        // Check for saved theme preference or use OS preference
+        const currentTheme = localStorage.getItem('theme') || 
+                           (prefersDarkScheme.matches ? 'dark' : 'light');
+        
+        // Apply the theme
+        if (currentTheme === 'dark') {
+            document.body.classList.add('dark-theme');
+        }
+        
+        // Toggle theme on button click
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-theme');
+            
+            // Save theme preference
+            const theme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
+            localStorage.setItem('theme', theme);
+        });
+
         // Fade-in animation on scroll
         const appearOnScroll = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
